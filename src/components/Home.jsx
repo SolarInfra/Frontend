@@ -76,6 +76,20 @@ const Home = () => {
       updateIncome();
     }, []);
 
+  // useEffect(() => {
+  //     const updateIncome = async () => {
+  //         await fetch(`${process.env.REACT_APP_BACKEND_API_URL}/api/auth/updatefixedincome`, {
+  //         method: 'POST',
+  //         headers: {
+  //             'Content-Type': 'application/json',
+  //             authtoken: localStorage.getItem('authToken'),
+  //         },
+  //         });
+  //     };
+
+  //     updateIncome();
+  //   }, []);
+
   const handleBuy = async (productId) => {
     try {
       console.log(productId)
@@ -216,14 +230,21 @@ const Home = () => {
             <div id='products'  className='xl1:w-[70%] sm7:w-[80%] w-[90%] grid md4:grid-cols-2 grid-cols-1 xl1:flex flex-col items-center justify-center bg-slate-100 py-[36px] rounded-3xl border-[1px] border-slate-700 px-[20px] xl1:px-0 gap-[20px] xl1:gap-0'>
 
 
-              {products.map((product) => (
-                <div key={product._id} className="Product xl1:w-[80%] w-full bg-zinc-100 xl1:flex items-center rounded-[10px] p-[2px] hover:shadow-2xl shadow-blue-200 transition duration-300 border-[1px] border-blue-400 my-[24px]">
+              {[...products]
+                .filter(p => p.type !== 'fixed') // ✅ hide fixed plans
+                .sort((a, b) => a.price - b.price) // ✅ sort by price ascending
+                .map((product) => (
+                <div key={product._id} className="Product xl1:w-[80%] w-full bg-zinc-100 xl1:flex items-center rounded-[10px] p-[2px] hover:shadow-2xl shadow-blue-200 transition duration-300 border-[1px] border-blue-400 my-[24px] relative">
+
+                  <div className='absolute top-4 right-4 px-[20px] py-[4px] border-[1px] border-blue-400 rounded-full xl1:bg-transparent bg-white'>
+                    <h1 className='text-[16px] font-bold m-0 '>{product.type}</h1>
+                  </div>
 
                   <div className="img w-auto">
                     <img className='xl1:h-[130px] xl1:w-[300px] h-[200px] w-full xl1:rounded-tl-[10px] xl1:rounded-bl-[10px] rounded-tl-[10px] rounded-tr-[10px]' src="/images/product_img.jpg" alt="" />
                   </div>
 
-                  <div className="cont xl1:ml-[28px] xl1:px-0 pt-[14px] xl1:pt-0 px-[20px] xl1:flex items-center w-full h-full">
+                  <div className="cont xl1:ml-[28px] xl1:px-0 pt-[14px] xl1:pt-0 px-[20px] xl1:flex items-center w-full h-full xl1:mt-[30px]">
 
                     <div className={`xl1:w-[80%] w-[100%] h-[70%] flex justify-center text-blue-500`}>
 
@@ -297,7 +318,7 @@ const Home = () => {
                         setSelectedProduct(product); // store the whole product
                         setShowConfirmModal(true);   // show modal
                       }}
-                      className="px-4 py-2 mr-[8px] bg-blue-500 text-white rounded hover:bg-blue-600 transition"
+                      className="px-4 py-2 mr-[8px] bg-blue-500 text-white rounded hover:bg-blue-600 transition xl1:mt-[30px]"
                     >
                       Buy
                     </button> 
