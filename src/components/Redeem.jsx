@@ -285,7 +285,7 @@ const Redeem = () => {
                   {parseFloat(reward.discount) !== 0 && (
                     <div className='ofr absolute bg-red-600 p-[24px] right-[3%] top-[3%] rounded-full flex items-center justify-center'>
                       <h1 className='text-[16px] font-bold text-orange-100 m-0 absolute'>
-                        -{reward.discount}%
+                        off
                         {/*<span className='text-[10px]'>off</span>*/}
                       </h1>
                     </div>
