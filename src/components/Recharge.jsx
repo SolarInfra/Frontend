@@ -146,7 +146,7 @@ const Recharge = () => {
                     <h1 className='sm4:text-[14px] sm7:text-[12px] text-[10px] m-0'>2. Scan the Qr code (It will appear only if the amount if more than or equal to 5000).</h1>
                 </div>
                 <div className="flex items-center mt-[8px]">
-                    <h1 className='sm4:text-[14px] sm7:text-[12px] text-[10px] m-0'>3. After successful payment copy the transaction ID and pate it above.</h1>
+                    <h1 className='sm4:text-[14px] sm7:text-[12px] text-[10px] m-0'>3. After successful payment copy the transaction ID and paste it above.</h1>
                 </div>
                 <div className="flex items-center mt-[8px]">
                     <h1 className='sm4:text-[14px] sm7:text-[12px] text-[10px] m-0'>4. Click Sumbit and your request will be submitted for review and your recharge will be added soon.</h1>
