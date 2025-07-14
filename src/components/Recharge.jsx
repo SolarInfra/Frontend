@@ -128,7 +128,7 @@ const Recharge = () => {
                         </div>
                     ) : (
                         <div className="text-red-600 font-bold mt-4">
-                        Amount should be at least ₹1000.
+                        Amount should be at least ₹5000.
                         </div>
                     )
                 ) : null}
