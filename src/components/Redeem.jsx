@@ -191,7 +191,10 @@ const Redeem = () => {
           {active === "first" && (
             <div className="h-full flex flex-col items-center">
               <div  className="w-full h-[420px] overflow-y-scroll super-thin-scrollbar scrollbar-thumb-slate-500 scrollbar-track-gray-200 md4:grid md4:grid-cols-2 justify-center py-[20px] gap-[10px] px-[20px] mb-[20px]">
-                {rewards.filter(item => item.productName === 'cash').map((rewards, index) => (
+                {rewards.filter(item => item.productName === 'cash')
+                .reverse().sort((a, b) => {
+                  return Number(a.coins) - Number(b.coins);
+                }).map((rewards, index) => (
                   <a
                     href={rewards.link}
                     key={rewards.index}
