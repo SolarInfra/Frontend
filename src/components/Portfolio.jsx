@@ -48,53 +48,93 @@ const Portfolio = () => {
     //     };
     // };
 
+    // const getEarningsAndExpiry = (product, purchasedAt) => {
+    //     // ✅ Use a helper to parse daily income with k / L
+    //     const parseIncomeString = (str) => {
+    //         let num = str.toLowerCase().trim();
+    //         if (num.includes('k')) {
+    //         return parseFloat(num.replace('k', '')) * 1000;
+    //         } else if (num.includes('L')) {
+    //         return parseFloat(num.replace('L', '')) * 100000;
+    //         } else if (num.includes('Cr')) {
+    //         return parseFloat(num.replace('Cr', '')) * 10000000;
+    //         } else {
+    //         return parseFloat(num);
+    //         }
+    //     };
+
+    //     const dailyIncome = parseIncomeString(product.dailyIncome);
+
+    //     // ✅ Duration stays same
+    //     const durationDays = parseInt(product.duration.replace(/[^\d]/g, ''));
+
+    //     const purchaseDate = new Date(purchasedAt);
+    //     const today = new Date();
+    //     const daysPassed = Math.floor((today - purchaseDate) / (1000 * 60 * 60 * 24));
+    //     const earnings = Math.min(daysPassed, durationDays) * dailyIncome;
+
+    //     const expiryDate = new Date(purchaseDate);
+    //     expiryDate.setDate(purchaseDate.getDate() + durationDays);
+
+    //     return {
+    //         earnings: earnings.toFixed(2),
+    //         expiry: expiryDate.toLocaleDateString()
+    //     };
+    // };
+
+    // const formatDateTime = (dateString) => {
+    //     const date = new Date(dateString);
+
+    //         return date.toLocaleString('en-GB', {
+    //             day: 'numeric',
+    //             month: 'long',
+    //             year: 'numeric',
+    //             hour: '2-digit',
+    //             minute: '2-digit',
+    //             hour12: false,
+    //         }).replace(',', ' at');
+    // };
+
+
     const getEarningsAndExpiry = (product, purchasedAt) => {
-        // ✅ Use a helper to parse daily income with k / L
-        const parseIncomeString = (str) => {
-            let num = str.toLowerCase().trim();
-            if (num.includes('k')) {
-            return parseFloat(num.replace('k', '')) * 1000;
-            } else if (num.includes('L')) {
-            return parseFloat(num.replace('L', '')) * 100000;
-            } else if (num.includes('Cr')) {
-            return parseFloat(num.replace('Cr', '')) * 10000000;
-            } else {
-            return parseFloat(num);
-            }
-        };
+  const parseIncomeString = (str) => {
+    let num = str.toLowerCase().trim();
+    if (num.includes('k')) return parseFloat(num.replace('k', '')) * 1000;
+    if (num.includes('l')) return parseFloat(num.replace('l', '')) * 100000;
+    if (num.includes('cr')) return parseFloat(num.replace('cr', '')) * 10000000;
+    return parseFloat(num);
+  };
 
-        const dailyIncome = parseIncomeString(product.dailyIncome);
+  const dailyIncome = parseIncomeString(product.dailyIncome || '0');
+  const durationDays = parseInt(product.duration.replace(/[^\d]/g, '') || '0');
 
-        // ✅ Duration stays same
-        const durationDays = parseInt(product.duration.replace(/[^\d]/g, ''));
+  const purchaseDate = new Date(purchasedAt);
+  const utcPurchase = new Date(purchaseDate.getUTCFullYear(), purchaseDate.getUTCMonth(), purchaseDate.getUTCDate());
 
-        const purchaseDate = new Date(purchasedAt);
-        const today = new Date();
-        const daysPassed = Math.floor((today - purchaseDate) / (1000 * 60 * 60 * 24));
-        const earnings = Math.min(daysPassed, durationDays) * dailyIncome;
+  const today = new Date();
+  const utcToday = new Date(today.getUTCFullYear(), today.getUTCMonth(), today.getUTCDate());
 
-        const expiryDate = new Date(purchaseDate);
-        expiryDate.setDate(purchaseDate.getDate() + durationDays);
+  const daysPassed = Math.floor((utcToday - utcPurchase) / (1000 * 60 * 60 * 24));
+  const earnings = Math.min(daysPassed, durationDays) * dailyIncome;
 
-        return {
-            earnings: earnings.toFixed(2),
-            expiry: expiryDate.toLocaleDateString()
-        };
-    };
+  const expiryDate = new Date(utcPurchase);
+  expiryDate.setUTCDate(expiryDate.getUTCDate() + durationDays);
 
-    const formatDateTime = (dateString) => {
-        const date = new Date(dateString);
+  return {
+    earnings: earnings.toFixed(2),
+    expiry: expiryDate.toISOString(),
+  };
+};
 
-            return date.toLocaleString('en-GB', {
-                day: 'numeric',
-                month: 'long',
-                year: 'numeric',
-                hour: '2-digit',
-                minute: '2-digit',
-                hour12: false,
-            }).replace(',', ' at');
-    };
 
+const formatDateTime = (isoString) => {
+  const date = new Date(isoString);
+  return date.toLocaleDateString('en-GB', {
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric',
+  });
+};
 
   return (
     <div className='bg-gradient-to-r from-blue-400 to-indigo-600 py-[28px] pb-[100px] w-full font-poppins min-h-[100vh]'>
@@ -102,7 +142,7 @@ const Portfolio = () => {
         <div className='flex flex-col items-center justify-center'>
 
              <div className='py-[6px] px-[28px] flex items-center justify-center border-2 border-blue-400 rounded-full bg-slate-100 shadow-xl my-[20px]'>
-                <h1 className='font-bold sm3:text-[28px] text-[22px]'>My Portfolio</h1>
+                <h1 className='font-bold sm3:text-[28px] text-[22px] m-0'>My Portfolio</h1>
             </div>
 
             <div className='xl1:w-[70%] sm7:w-[80%] w-[90%] grid md4:grid-cols-2 grid-cols-1 xl1:flex flex-col items-center justify-center bg-slate-100 py-[36px] rounded-3xl border-[1px] border-slate-700 px-[20px] xl1:px-0 gap-[20px] xl1:gap-0'>
