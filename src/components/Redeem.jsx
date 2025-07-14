@@ -192,6 +192,7 @@ const Redeem = () => {
             <div className="h-full flex flex-col items-center">
               <div  className="w-full h-[420px] overflow-y-scroll super-thin-scrollbar scrollbar-thumb-slate-500 scrollbar-track-gray-200 md4:grid md4:grid-cols-2 justify-center py-[20px] gap-[10px] px-[20px] mb-[20px]">
                 {rewards.filter(item => item.productName === 'cash')
+                .slice()
                 .reverse().sort((a, b) => {
                   return Number(a.coins) - Number(b.coins);
                 }).map((rewards, index) => (
