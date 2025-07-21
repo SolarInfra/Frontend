@@ -30,57 +30,6 @@ const Portfolio = () => {
         fetchUserProducts();
     }, []);
 
-    // const getEarningsAndExpiry = (product, purchasedAt) => {
-    //     const dailyIncome = parseFloat(product.dailyIncome.replace(/[^\d.]/g, ''));
-    //     const durationDays = parseInt(product.duration.replace(/[^\d]/g, ''));
-
-    //     const purchaseDate = new Date(purchasedAt);
-    //     const today = new Date();
-    //     const daysPassed = Math.floor((today - purchaseDate) / (1000 * 60 * 60 * 24));
-    //     const earnings = Math.min(daysPassed, durationDays) * dailyIncome;
-
-    //     const expiryDate = new Date(purchaseDate);
-    //     expiryDate.setDate(purchaseDate.getDate() + durationDays);
-
-    //     return {
-    //         earnings: earnings.toFixed(2),
-    //         expiry: expiryDate.toLocaleDateString()
-    //     };
-    // };
-
-    // const getEarningsAndExpiry = (product, purchasedAt) => {
-    //     // ✅ Use a helper to parse daily income with k / L
-    //     const parseIncomeString = (str) => {
-    //         let num = str.toLowerCase().trim();
-    //         if (num.includes('k')) {
-    //         return parseFloat(num.replace('k', '')) * 1000;
-    //         } else if (num.includes('L')) {
-    //         return parseFloat(num.replace('L', '')) * 100000;
-    //         } else if (num.includes('Cr')) {
-    //         return parseFloat(num.replace('Cr', '')) * 10000000;
-    //         } else {
-    //         return parseFloat(num);
-    //         }
-    //     };
-
-    //     const dailyIncome = parseIncomeString(product.dailyIncome);
-
-    //     // ✅ Duration stays same
-    //     const durationDays = parseInt(product.duration.replace(/[^\d]/g, ''));
-
-    //     const purchaseDate = new Date(purchasedAt);
-    //     const today = new Date();
-    //     const daysPassed = Math.floor((today - purchaseDate) / (1000 * 60 * 60 * 24));
-    //     const earnings = Math.min(daysPassed, durationDays) * dailyIncome;
-
-    //     const expiryDate = new Date(purchaseDate);
-    //     expiryDate.setDate(purchaseDate.getDate() + durationDays);
-
-    //     return {
-    //         earnings: earnings.toFixed(2),
-    //         expiry: expiryDate.toLocaleDateString()
-    //     };
-    // };
 
     // const formatDateTime = (dateString) => {
     //     const date = new Date(dateString);
@@ -96,7 +45,75 @@ const Portfolio = () => {
     // };
 
 
-    const getEarningsAndExpiry = (product, purchasedAt) => {
+//     const getEarningsAndExpiry = (product, purchasedAt) => {
+//   const parseIncomeString = (str) => {
+//     let num = str.toLowerCase().trim();
+//     if (num.includes('k')) return parseFloat(num.replace('k', '')) * 1000;
+//     if (num.includes('l')) return parseFloat(num.replace('l', '')) * 100000;
+//     if (num.includes('cr')) return parseFloat(num.replace('cr', '')) * 10000000;
+//     return parseFloat(num);
+//   };
+
+//   const dailyIncome = parseIncomeString(product.dailyIncome || '0');
+//   const durationDays = parseInt(product.duration.replace(/[^\d]/g, '') || '0');
+
+//   const purchaseDate = new Date(purchasedAt);
+//   const utcPurchase = new Date(purchaseDate.getUTCFullYear(), purchaseDate.getUTCMonth(), purchaseDate.getUTCDate());
+
+//   const today = new Date();
+//   const utcToday = new Date(today.getUTCFullYear(), today.getUTCMonth(), today.getUTCDate());
+
+//   const daysPassed = Math.floor((utcToday - utcPurchase) / (1000 * 60 * 60 * 24));
+//   const earnings = Math.min(daysPassed, durationDays) * dailyIncome;
+
+//   const expiryDate = new Date(utcPurchase);
+//   expiryDate.setUTCDate(expiryDate.getUTCDate() + durationDays);
+
+//   return {
+//     earnings: earnings.toFixed(2),
+//     expiry: expiryDate.toISOString(),
+//   };
+// };
+
+
+
+// const getEarningsAndExpiry = (product, purchasedAt) => {
+//   const parseIncomeString = (str) => {
+//     let num = str.toLowerCase().trim();
+//     if (num.includes('k')) return parseFloat(num.replace('k', '')) * 1000;
+//     if (num.includes('l')) return parseFloat(num.replace('l', '')) * 100000;
+//     if (num.includes('cr')) return parseFloat(num.replace('cr', '')) * 10000000;
+//     return parseFloat(num);
+//   };
+
+//   const dailyIncome = parseIncomeString(product.dailyIncome || '0');
+//   const durationDays = parseInt(product.duration.replace(/[^\d]/g, '') || '0');
+
+//   const purchaseDate = new Date(purchasedAt);
+//   const now = new Date();
+
+//   // Calculate the exact milliseconds passed
+//   const msPassed = now.getTime() - purchaseDate.getTime();
+
+//   // Convert to days (with decimal)
+//   const exactDaysPassed = msPassed / (1000 * 60 * 60 * 24);
+
+//   // We only want to credit full days that have passed
+//   const fullDays = Math.min(Math.floor(exactDaysPassed), durationDays);
+
+//   const earnings = fullDays * dailyIncome;
+
+//   // Calculate expiry based on original purchase timestamp
+//   const expiryDate = new Date(purchaseDate);
+//   expiryDate.setDate(purchaseDate.getDate() + durationDays);
+
+//   return {
+//     earnings: earnings.toFixed(2),
+//     expiry: expiryDate.toISOString(),
+//   };
+// };
+
+const getEarningsAndExpiry = (product, purchasedAt) => {
   const parseIncomeString = (str) => {
     let num = str.toLowerCase().trim();
     if (num.includes('k')) return parseFloat(num.replace('k', '')) * 1000;
@@ -109,22 +126,23 @@ const Portfolio = () => {
   const durationDays = parseInt(product.duration.replace(/[^\d]/g, '') || '0');
 
   const purchaseDate = new Date(purchasedAt);
-  const utcPurchase = new Date(purchaseDate.getUTCFullYear(), purchaseDate.getUTCMonth(), purchaseDate.getUTCDate());
+  const now = new Date();
 
-  const today = new Date();
-  const utcToday = new Date(today.getUTCFullYear(), today.getUTCMonth(), today.getUTCDate());
+  const msInDay = 1000 * 60 * 60 * 24;
+  const msPassed = now.getTime() - purchaseDate.getTime();
+  const daysPassed = Math.floor(msPassed / msInDay);
 
-  const daysPassed = Math.floor((utcToday - utcPurchase) / (1000 * 60 * 60 * 24));
   const earnings = Math.min(daysPassed, durationDays) * dailyIncome;
 
-  const expiryDate = new Date(utcPurchase);
-  expiryDate.setUTCDate(expiryDate.getUTCDate() + durationDays);
+  const expiryDate = new Date(purchaseDate.getTime() + durationDays * msInDay);
 
   return {
     earnings: earnings.toFixed(2),
     expiry: expiryDate.toISOString(),
   };
 };
+
+
 
 
 const formatDateTime = (isoString) => {

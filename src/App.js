@@ -21,7 +21,7 @@ import AdminAddRewward from './components/AdminAddRewward';
 import AdminWithdraw from './components/AdminWithdraw';
 import AdminRewards from './components/AdminRewards';
 import AdminRecharge from './components/AdminRecharge';
-
+import AdminGate from './components/AdminGate';
 
 function App() {
   return (
@@ -31,15 +31,7 @@ function App() {
 
         <Route path='/' element={<Signup />}></Route>
 
-        <Route path='/admin' element={<Admin />}></Route>
 
-        <Route path='/adminwithdraw' element={<AdminWithdraw />}></Route>
-
-        <Route path='/adminaddreward' element={<AdminAddRewward />}></Route>
-
-        <Route path='/adminreward' element={<AdminRewards />}></Route>
-
-        <Route path='/adminrecharge' element={<AdminRecharge />}></Route>
 
         <Route path='/login' element={<Login />}></Route>
 
@@ -73,7 +65,23 @@ function App() {
 
         </Route>
 
+        <Route path="/admin" element={<AdminGate />}>
+
+          <Route index element={<Admin />} />
+
+          <Route path="withdraw" element={<AdminWithdraw />} />
+
+          <Route path="addreward" element={<AdminAddRewward />} />
+
+          <Route path="reward" element={<AdminRewards />} />
+
+          <Route path="recharge" element={<AdminRecharge />} />
+
+        </Route>
+
+
       </Routes>
+      
      </Router>
     </div>
   );

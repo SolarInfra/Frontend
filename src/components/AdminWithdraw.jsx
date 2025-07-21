@@ -62,10 +62,10 @@ const AdminWithdraw = () => {
             </button>
           </div>
           <nav className="flex flex-col p-4 space-y-4">
-            <NavLink to="/adminaddreward" className="hover:bg-gray-700 p-2 rounded no-underline text-white">Add Reward</NavLink>
-            <NavLink to="/adminwithdraw" className="hover:bg-gray-700 p-2 rounded no-underline text-white">Withdraw Requests</NavLink>
-            <NavLink to="/adminreward" className="hover:bg-gray-700 p-2 rounded no-underline text-white">Reward Requests</NavLink>
-            <NavLink to="/adminrecharge" className="hover:bg-gray-700 p-2 rounded no-underline text-white">Recharge Requests</NavLink>
+            <NavLink to="/admin/addreward" className="hover:bg-gray-700 p-2 rounded no-underline text-white">Add Reward</NavLink>
+            <NavLink to="/admin/withdraw" className="hover:bg-gray-700 p-2 rounded no-underline text-white">Withdraw Requests</NavLink>
+            <NavLink to="/admin/reward" className="hover:bg-gray-700 p-2 rounded no-underline text-white">Reward Requests</NavLink>
+            <NavLink to="/admin/recharge" className="hover:bg-gray-700 p-2 rounded no-underline text-white">Recharge Requests</NavLink>
           </nav>
         </div>
 
